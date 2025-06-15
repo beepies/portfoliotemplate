@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>portfolio!</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+ <div id="conteudoWeb">
+    <div class="container">
+        <header>
+            <span>my portfolio ♡ ⋆｡˚</span>
+        </header>
+
+        <nav class="small">
+                <img src="https://i.pinimg.com/736x/42/8b/60/428b60f49763c980eafa9f34677b25a6.jpg" alt="imagee" style="width: 80px; height: auto; display: block; margin: 0 auto 10px auto;">
+                <div>navigation!</div>
+                <a href="#" class="nav-link" data-target="homehome">home</a>
+                <a href="#" class="nav-link" data-target="aboutme">about</a>
+                <a href="#" class="nav-link" data-target="test">test</a>
+                <a href="#" class="nav-link" data-target="portfolio-section">portfolio</a>
+                <a href="#" class="nav-link" data-target="button-section">
+                    <img src="https://i.pinimg.com/736x/57/d5/c5/57d5c57e7b25208560ec39738f0cd198.jpg" alt="button" style="width: 40px; height: auto; display: block; margin: 0 auto 10px auto;">
+                </a>
+            </nav>
+
+                <section id="homehome" class="large contentsection">
+                <h1>welcome!</h1>
+                <p>have a nice stay here</p>
+                <p>and enjoy some tea!</p>
+                <h3>what will you find here?</h3>
+                <ul>
+                    <li>lots of pink!</li>
+                    <li>a portfolio kind of!</li>
+                    <li>secrets!</li>
+                </ul>
+            </section>
+
+        <section id="aboutme" class="large contentsection">
+        <h1>about me</h1>
+        <p>i like drawing and i dislike java! :D</p>
+            </section>
+
+                <section id="test" class="large contentsection">
+                <h1>a test</h1>
+                <p>a test section for all kinds of experiments</p>
+                <p>ascii: *:･ﾟ✧*:･ﾟ﹥*:ꔫ:*+ﾟ</p>
+            </section>
+
+            <section id="portfolio-section" class="large contentsection">
+                <h1>codes</h1>
+                <p>some codes i've done:</p>
+
+                <div class="projetoCodigo">
+                    <h3>project: battleships game (PYTHON)</h3>
+                    <p>a battleships game made in python</p>
+                    <button class="togglebotaoCodigo">show code</button>
+                    <div class="conteudoCodigo" style="display: none;">
+                        <pre><code>from colorama import Fore, Style
+import time
+import random
+import os
+import pyfiglet
+from termcolor import colored
+import shutil
+import sys  # Para sys.exit()
+
+# --------------- LEGENDA ----------------
+# ~: parte vazia do tabuleiro
+# @: navio
+# X: "bomba"/navio acertado
+# O: "água" (chute errado)
+
+embarcacoes = [
+    ("Encouraçado", 5),
+    ("Porta-aviões", 4),
+    ("Contratorpedeiro", 3),
+    ("Contratorpedeiro", 3),
+    ("Submarino", 2),
+    ("Submarino", 2)
+]
+direcoes = ['H', 'V'] #Horizontal e vertical!
+
+def criar_tabuleiro(l, c): # cria a matriz do tabuleiro
+    tabuleiro = []
+    for i in range(l):
+        linha = []
+        for j in range(c):
+            linha.append(0)
+        tabuleiro.append(linha)
+    return tabuleiro
+
+def imprimir_tabuleiro(tabuleirotoPrint, pessoa='eu', nome_jogador=''): # 'eu' = tabuleiro próprio
+    if not tabuleirotoPrint:
+      print("O tabuleiro está vazio")
+      return
+    numlinhas=len(tabuleirotoPrint)
+    numcolunas=len(tabuleirotoPrint[0])
+    if nome_jogador:
+        print(f"---- Tabuleiro de {nome_jogador}! ({'Sua visão' if pessoa == 'eu' else 'visão oponente'})----")
+    else:
+        print(f"---- Seu tabuleiro! ({'Sua visão' if pessoa == 'eu' else 'visão oponente'})----")
+
+
+    # cabeçalho das colunas com letras
+    print("   ", end="")
+    for j in range(numcolunas):
+        print(f" {chr(65 + j)} ", end="")
+    print()
+    for i in range(numlinhas):
+        print(f"{i + 1:2d} ", end="") # <-- formatação dois dígitos
+        for j in range(numcolunas):
+            simboloDisplay = tabuleirotoPrint[i][j]
+            if simboloDisplay == 0:   # "em branco" para tabuleiro próprio
+                print(f" {Fore.CYAN}~{Style.RESET_ALL} ", end="")
+            elif simboloDisplay == 1:  # navio para tabuleiro próprio
+                print(f" {Fore.GREEN}@{Style.RESET_ALL} ", end="")
+            elif simboloDisplay == 2:  # "bomba", para ambos os tabuleiros
+                print(f" {Fore.RED}X{Style.RESET_ALL} ", end="")
+            elif simboloDisplay== 3:  # "água", para ambos os tabuleiros
+                print(f" {Fore.BLUE}O{Style.RESET_ALL} ", end="")
+            elif simboloDisplay == '.': # visão oculta para tabuleiro inimigo
+                print(f" {Fore.WHITE}.{Style.RESET_ALL} ", end="")
+        print()
+
+def opcao_tamanho():
+    # selecionar o tamanho do tabuleiro
+    while True:
+        try:
+            print("Selecione um tamanho para o tabuleiro!")
+            print(" 1. 10x10")
+            print(" 2. 12x12")
+            print(" 3. 15x15")
+            tamanho_opcao_str = input("Digite um número: ")
+            tamanho_opcao = int(tamanho_opcao_str)
+
+            if tamanho_opcao == 1:
+                return 10, 10
+            elif tamanho_opcao == 2:
+                return 12, 12
+            elif tamanho_opcao == 3:
+                return 15, 15
+            else:
+                print("Valor inválido! Por favor, digite 1, 2 ou 3.")
+        except ValueError:
+            print("Valor inválido! Por favor, digite um número inteiro (1, 2 ou 3).")
+
+def tratamento_coordenadas(entrada, numcolunas, numlinhas):
+#converte coordenadas em formato letranumero em formato X, Y
+    if len(entrada) < 2:
+        print("Entrada inválida! Use o formato coluna + linha (ex. A5)")
+        return -1, -1
+    colunaString = entrada[0].upper()
+    linhaString = entrada[1:]
+    if not colunaString.isalpha():
+        print("Entrada inválida! Use o formato coluna + linha (ex. A5)")
+        return -1, -1 # valor inválido
+    if not linhaString.isdigit():
+        print("Entrada inválida! Use o formato coluna + linha (ex. A5)")
+        return -1, -1
+    coluna = ord(colunaString) - ord('A')
+    linha = int(linhaString) - 1
+    if not (0 <= linha < numlinhas and 0 <= coluna < numcolunas):
+        print("Coordenadas fora dos limites do tabuleiro!!")
+        return -1, -1
+    return linha, coluna
+
+def validar_posicao_navio(tabuleiroreal, tamanhoNavio, linhainicial, colunainicial, orientacao):  
+# Verifica se a posição é válida para o navio
+    numlinhas = len(tabuleiroreal)
+    numcolunas = len(tabuleiroreal[0])
+    violacoes = 0
+    if orientacao == 'H':#verifica se cabe horizontalmente
+        if colunainicial + tamanhoNavio > numcolunas:
+            violacoes += 1 # Não cabe
+        else:
+            for j in range(tamanhoNavio):
+                if tabuleiroreal[linhainicial][colunainicial + j] != 0:  # verifica se não é em branco
+                    violacoes += 1
+    elif orientacao == 'V': #verifica se cabe verticalmente
+        if linhainicial + tamanhoNavio > numlinhas:
+            violacoes += 1
+        else:
+            for i in range(tamanhoNavio):
+                if tabuleiroreal[linhainicial + i][colunainicial] != 0:
+                    violacoes += 1 #Espaço já ocupado
+    else:
+        violacoes += 1 # Considera violação casa a entrada seja inválida
+    return violacoes == 0
+
+def organizacao_manual(tabuleiroreal, embarcacoes_list, nome_jogador=""):
+    numlinhas = len(tabuleiroreal)
+    numcolunas = len(tabuleiroreal[0])
+    print(f"\n------ {nome_jogador}: POSICIONE SUAS EMBARCAÇÕES!!! ------")
+    for nomeNavio, tamanhoNavio in embarcacoes_list:
+        posicionadostatus = 0  # 0 para não posicionado, 1 para posicionado
+        while posicionadostatus == 0:
+            imprimir_tabuleiro(tabuleiroreal, pessoa = 'eu', nome_jogador=nome_jogador)
+            print(f"\nPosicionando: {nomeNavio} (Tamanho: {tamanhoNavio})")
+            entrada = input(f"Digite a coordenada inicial: ").upper()
+            linhainicial, colunainicial = tratamento_coordenadas(entrada, numcolunas, numlinhas)
+            if linhainicial == -1:
+                continue
+            entradaorientacao = input("Digite a orientação, horizontal ou vertical (H ou V):").upper()
+            if entradaorientacao not in direcoes:
+                print("Orientação inválida. Por favor, digite H ou V.")
+                continue
+            if validar_posicao_navio(tabuleiroreal, tamanhoNavio, linhainicial, colunainicial, entradaorientacao):
+                if entradaorientacao == 'H':
+                    for j in range(tamanhoNavio):
+                        tabuleiroreal[linhainicial][colunainicial + j] = 1
+                elif entradaorientacao == 'V':
+                    for i in range(tamanhoNavio):
+                        tabuleiroreal[linhainicial + i][colunainicial] = 1
+                posicionadostatus = 1
+                print(f"'{nomeNavio}' posicionado com sucesso!!")
+                time.sleep(1.5)
+            else:
+                print(
+                    "Não foi possível posicionar a embarcação aqui.")
+                time.sleep(1.5)
+    print(f"\nTodas as embarcações de {nome_jogador} foram posicionadas!!")
+    imprimir_tabuleiro(tabuleiroreal, pessoa = 'eu', nome_jogador=nome_jogador)
+    time.sleep(2)
+
+def organizacao_aleatoria(tabuleiroreal, embarcacoes_list, nome_jogador=""):
+    num_linhas = len(tabuleiroreal)
+    num_colunas = len(tabuleiroreal[0])
+    print(f"\nPosicionado as embarcações de {nome_jogador} aleatoriamente")
+    for nomeNavio, tamanhoNavio in embarcacoes_list:
+        posicionado = 0
+        while posicionado == 0:
+            linhainicial = random.randint(0, num_linhas - 1)
+            colunainicial = random.randint(0, num_colunas - 1)
+            orientacao = random.choice(direcoes)
+            if validar_posicao_navio(tabuleiroreal, tamanhoNavio, linhainicial, colunainicial, orientacao):
+                if orientacao == 'H':
+                    for j in range(tamanhoNavio):
+                        tabuleiroreal[linhainicial][colunainicial + j] = 1
+                elif orientacao == 'V':
+                    for i in range(tamanhoNavio):
+                        tabuleiroreal[linhainicial + i][colunainicial] = 1
+                posicionado += 1
+    print(f"Embarcações de {nome_jogador} posicionadas.")
+    time.sleep(1)
+
+def mecanica_jogada(tabuleiroreal, tabuleirodisplay, linha, coluna):
+    # tabela resultados:
+    #0: água atingida
+    #1: acerto novo
+    #2: navio já atingido
+    #3: água já atingida
+    valueatual = tabuleiroreal[linha][coluna]
+    valuedisplay = tabuleirodisplay[linha][coluna]
+    if valuedisplay == 2:
+        return "Você já atingiu esta parte de um navio!", 2
+    elif valuedisplay == 3:
+        return "Você já atingiu água aqui!!", 3
+    if valueatual == 1:
+        tabuleiroreal[linha][coluna] = 2
+        tabuleirodisplay[linha][coluna] = 2
+        return "BOMBA!", 1
+    else:
+        tabuleiroreal[linha][coluna] = 3
+        tabuleirodisplay[linha][coluna] = 3
+        return "ÁGUA!", 0
+
+def navio_restante(tabuleiroreal):
+    partes_restantes = 0
+    for linha in tabuleiroreal:
+        for valorcaixa in linha:
+            if valorcaixa == 1:
+                partes_restantes += 1
+    return partes_restantes
+
+def configjogador(nome_jogador, numlinhas, numcolunas):
+    print(f"\nCriando o tabuleiro de {nome_jogador}!")
+    board_real = criar_tabuleiro(numlinhas, numcolunas)
+    board_display = criar_tabuleiro(numlinhas, numcolunas)
+    for i in range(numlinhas):
+        for j in range(numcolunas):
+            board_display[i][j] = '.'
+
+    if nome_jogador == "COMPUTADOR":
+        organizacao_aleatoria(board_real, embarcacoes, nome_jogador)
+    else:
+        statusposi = 0 # para sair do loop
+        while statusposi == 0:
+            escolha_posicionamento = input(f"{nome_jogador}, escolha posicionar as embarcações manualmente (M)\n            ou deixar que o computador o faça \n            aleatoriamente (A)? ").upper()
+            if escolha_posicionamento == 'M':
+                organizacao_manual(board_real, embarcacoes, nome_jogador)
+                statusposi = 1
+            elif escolha_posicionamento == 'A':
+                organizacao_aleatoria(board_real, embarcacoes, nome_jogador)
+                imprimir_tabuleiro(board_real, pessoa='eu', nome_jogador=nome_jogador)
+                time.sleep(3)
+                statusposi = 1
+            else:
+                print("Opção inválida.")
+    return board_real, board_display
+
+def estatisticas(stats):
+    print("\n" + "~"*40)
+    print(f"{Fore.YELLOW}˚ ˚ ༘ ⋆｡˚ESTATÍSTICAS!!˚ ༘ ⋆｡˚⋆｡{Style.RESET_ALL}")
+    print("~"*40)
+    print(f"Total de partidas jogadas: {stats['total_games']}")
+
+    print(f"\n{Fore.LIGHTCYAN_EX}⋆｡˚Modo Jogador vs. CPU:⋆｡˚{Style.RESET_ALL}")
+    print(f"  Vitórias do Jogador: {stats['player_vs_comp_wins']}")
+    print(f"  Vitórias do Computador: {stats['comp_vs_player_wins']}")
+    if stats['player_shots'] > 0:
+        print(f"  Tiros do Jogador (Total/Acertos/Erros): {stats['player_shots']}\n            /{stats['player_hits']}/{stats['player_misses']}")
+    if stats['comp_shots'] > 0:
+        print(f"  Tiros do Computador (Total/Acertos/Erros): {stats['comp_shots']}\n            /{stats['comp_hits']}/{stats['comp_misses']}")
+
+    print(f"\n{Fore.MAGENTA}⋆｡˚Modo Jogador vs. Jogador:⋆｡˚{Style.RESET_ALL}")
+    print(f"  Vitórias do Jogador 1: {stats['player1_vs_player2_wins']}")
+    print(f"  Vitórias do Jogador 2: {stats['player2_vs_player1_wins']}")
+    if stats['player1_shots'] > 0:
+        print(f"  Stats do jogador 1: {stats['player1_shots']}/{stats['player1_hits']}/{stats['player1_misses']}")
+    if stats['player2_shots'] > 0:
+        print(f"  Stats do jogador 2: {stats['player2_shots']}/{stats['player2_hits']}/{stats['player2_misses']}")
+    print("~"*40)
+    input("Pressione Enter para continuar!")
+
+def print_estilizado(texto, fonte, cor):
+    #try:
+        arte_ASCII = pyfiglet.figlet_format(texto, font=fonte)
+        print(centralizar_texto(colored(arte_ASCII, cor)))
+    #except Exception:
+        #print(centralizar_texto(texto))
+
+def limpar_terminal():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+def centralizar_texto(texto):
+    largura_terminal = shutil.get_terminal_size().columns
+    linhas = texto.split('\n')
+    texto_centralizado = []
+    for linha in linhas:
+        espacos = max((largura_terminal - len(linha)) // 2, 0)
+        texto_centralizado.append(' ' * espacos + linha)
+    return '\n'.join(texto_centralizado)
+
+def iniciar_menu(game_statistics):
+    while True:
+        try:
+            time.sleep(1)
+            limpar_terminal()
+            print_estilizado("BATALHA NAVAL\n", "larry3d", "blue")
+            print_estilizado("1. Jogador x Jogador", "digital", "red")
+            print_estilizado("2. Jogador x IA", "digital", "red")
+            print_estilizado("3. Score", "digital", "red")
+            print_estilizado("4. Sair", "digital", "blue")
+
+            game_option_input = input(centralizar_texto("\nSelecione uma opção: "))
+
+            if game_option_input == '1':
+                limpar_terminal()
+                print(centralizar_texto("Modo de jogo selecionado: Jogador x Jogador"))
+                time.sleep(2)
+                return 'A'
+            elif game_option_input == '2':
+                limpar_terminal()
+                print(centralizar_texto("Modo de jogo selecionado: Jogador x IA"))
+                time.sleep(2)
+                return 'C'
+            elif game_option_input == '3':
+                estatisticas(game_statistics)
+            elif game_option_input == '4':
+                print_estilizado("Obrigado por jogar!!!", "big", "green")
+                print_estilizado("Quero um 10 professor", "binary", "green")
+                time.sleep(4)
+                limpar_terminal()
+                sys.exit()
+            else:
+                print(centralizar_texto("OPÇÃO INCORRETA, POR FAVOR SELECIONE NOVAMENTE"))
+                time.sleep(3)
+
+        except KeyboardInterrupt:
+            print("\nPrograma interrompido pelo usuário.")
+            sys.exit()
+
+def gameplay():
+    resultadomulti = -1
+    tabuleirojogadorreal = None
+    player_name = ""
+    computer_board_display = None
+    tabuleirocomputadorreal = None
+    resultadocode = -1
+    player_board_display = None
+    linha_computador = -1
+    coluna_computador = -1
+    nomeplayer1 = ""
+    nomeplayer2 = ""
+    player1tabuleiroreal = None
+    player2tabuleiroreal = None
+    player1tabuleirodisplay = None
+    player2tabuleirodisplay = None
+
+    print("Bem-vindo ao jogo Battleships, ou Batalha Naval!!")
+    #armazena as stats
+    game_statistics = {
+        'total_games': 0,
+        'player_vs_comp_wins': 0,
+        'comp_vs_player_wins': 0,
+        'player1_vs_player2_wins': 0,
+        'player2_vs_player1_wins': 0,
+        'player_shots': 0, 'player_hits': 0, 'player_misses': 0,
+        'comp_shots': 0, 'comp_hits': 0, 'comp_misses': 0,
+        'player1_shots': 0, 'player1_hits': 0, 'player1_misses': 0,
+        'player2_shots': 0, 'player2_hits': 0, 'player2_misses': 0,
+    }
+
+    jogoativostatus = 1
+    while jogoativostatus == 1:
+        modo_jogo = iniciar_menu(game_statistics)
+        game_statistics['total_games'] += 1
+        # seleção tamanho tabuleiro
+        numlinhas, numcolunas = opcao_tamanho()
+        if numlinhas == -1:
+            continue
+
+        if modo_jogo == 'C': # vs computador
+            player_name = input("Digite seu nome de jogador: ")
+            tabuleirojogadorreal, player_board_display = configjogador(player_name, numlinhas, numcolunas)
+            tabuleirocomputadorreal, computer_board_display = configjogador("COMPUTADOR", numlinhas, numcolunas)
+        else:
+            nomeplayer1 = input("Digite o nome do Jogador 1: ")
+            nomeplayer2 = input("Digite o nome do Jogador 2: ")
+            player1tabuleiroreal, player1tabuleirodisplay = configjogador(nomeplayer1, numlinhas, numcolunas)
+            player2tabuleiroreal, player2tabuleirodisplay = configjogador(nomeplayer2, numlinhas, numcolunas)
+
+        jogadoratual = 1
+        game_over = 0
+        while game_over == 0:
+            if modo_jogo == 'C':
+                print("\n--- SEU TURNO ---")
+                imprimir_tabuleiro(tabuleirojogadorreal, pessoa='eu', nome_jogador=player_name)
+                imprimir_tabuleiro(computer_board_display, pessoa='oponente',nome_jogador="COMPUTADOR")
+                statustentativatiro = 0
+                while statustentativatiro == 0:
+                    jogada_str = input(f"{player_name}, digite suas coordenadas para atirar:").upper()
+                    linha_jogada, coluna_jogada = tratamento_coordenadas(jogada_str, numcolunas, numlinhas)
+                    if linha_jogada == -1:
+                        continue
+                    resultado_msg, resultadocode = mecanica_jogada(tabuleirocomputadorreal, computer_board_display,
+                                                                   linha_jogada, coluna_jogada)
+                    print(f"Resultado da sua jogada: {resultado_msg}")
+                    if resultadocode == 2 or resultadocode == 3:
+                        print("Essa posição já foi atingida. Por favor, escolha uma coordenada diferente.")
+                        continue
+                    else:
+                        statustentativatiro = 1
+                game_statistics['player_shots'] += 1
+                if resultadocode == 1:  # Acerto
+                    game_statistics['player_hits'] += 1
+                elif resultadocode == 0:  # Erro (água)
+                    game_statistics['player_misses'] += 1
+
+                time.sleep(1.5)
+
+                partes_restantes_computador = navio_restante(tabuleirocomputadorreal)
+                if partes_restantes_computador == 0:
+                    print("\nParabéns, você ganhou!")
+                    print("!!!!!!!")
+                    game_statistics['player_vs_comp_wins'] += 1
+                    game_over += 1
+                    continue
+                print("\n===--- TURNO DO COMPUTADOR ---===")
+                print("O computador está pensando...")
+                time.sleep(3)
+
+                statustirocomputador = 0 # loop para definir onde a cpu vai atirar
+                while statustirocomputador == 0:
+                    linha_computador = random.randint(0, numlinhas - 1)
+                    coluna_computador = random.randint(0, numcolunas - 1)
+                    if not (player_board_display[linha_computador][coluna_computador] == 'X' or
+                           player_board_display[linha_computador][coluna_computador] == 'O'):
+                        statustirocomputador = 1
+                resultado_msg_comp, outcome_code_comp = mecanica_jogada(tabuleirojogadorreal,
+                player_board_display,linha_computador, coluna_computador)
+                print(f"O computador atirou em {chr(65 + coluna_computador)}{linha_computador + 1}. \n                Resultado: {resultado_msg_comp}")
+                game_statistics['comp_shots'] += 1
+                if outcome_code_comp == 1:
+                    game_statistics['comp_hits'] += 1
+                elif outcome_code_comp == 0:
+                    game_statistics['comp_misses'] += 1
+
+                time.sleep(1.5)
+
+                partes_restantes_jogador = navio_restante(tabuleirojogadorreal)
+                if partes_restantes_jogador == 0:
+                    print("\nQue pena, todas suas embarcações cairam!")
+                    print("Computador ganha!!")
+                    game_statistics['comp_vs_player_wins'] += 1
+                    game_over += 1
+                    continue
+
+            else: # modo jogo A (player vs player)
+                nomejogadorativo = nomeplayer1 if jogadoratual == 1 else nomeplayer2
+                nomejogadoroponente = nomeplayer2 if jogadoratual == 1 else nomeplayer1
+                tabuleiro_ativo_real = player1tabuleiroreal if jogadoratual == 1 else player2tabuleiroreal
+                tabuleiro_ativo_display = player1tabuleirodisplay if jogadoratual == 1 else player2tabuleirodisplay
+                tabuleiro_real_oponente = player2tabuleiroreal if jogadoratual == 1 else player1tabuleiroreal
+                tabuleiro_display_oponente = player2tabuleirodisplay if jogadoratual == 1 else player1tabuleirodisplay
+
+                print(f"\n===--- TURNO DE {nomejogadorativo} ---===")
+                imprimir_tabuleiro(tabuleiro_ativo_real, pessoa='eu', nome_jogador=nomejogadorativo)
+                imprimir_tabuleiro(tabuleiro_display_oponente, pessoa='oponente', nome_jogador=nomejogadoroponente)
+
+                statustentativatiro = 0
+                resultadomulti = -1
+                while statustentativatiro == 0:
+                    jogada_str = input(f"{nomejogadorativo}, digite suas coordenadas para atirar \n                (ex: A1, até {chr(65 + numcolunas - 1)}{numlinhas}): ").upper()
+                    linha_jogada, coluna_jogada = tratamento_coordenadas(jogada_str, numcolunas, numlinhas)
+
+                    if linha_jogada == -1:  # coords inválidas
+                        continue
+                    resultado_msg_multi, resultadomulti = mecanica_jogada(tabuleiro_real_oponente,
+                   tabuleiro_display_oponente, linha_jogada, coluna_jogada)
+                    print(f"Resultado da jogada de {nomejogadorativo}: {resultado_msg_multi}")
+
+                    if resultadomulti == 2 or resultadomulti == 3:
+                        print("Essa posição já foi atingida. Por favor, escolha uma coordenada diferente.")
+                        continue
+                    else:
+                        statustentativatiro = 1
+                if jogadoratual == 1:
+                    game_statistics['player1_shots'] += 1
+                    if resultadomulti == 1:  # Acerto
+                        game_statistics['player1_hits'] += 1
+                    elif resultadomulti == 0:  # Erro (água)
+                        game_statistics['player1_misses'] += 1
+                else:
+                    game_statistics['player2_shots'] += 1
+                    if resultadomulti == 1:  ## acerto
+                        game_statistics['player2_hits'] += 1
+                    elif resultadomulti == 0:  ## erro
+                        game_statistics['player2_misses'] += 1
+                time.sleep(1.5)
+                partes_restantes_oponente = navio_restante(tabuleiro_real_oponente)
+                if partes_restantes_oponente == 0:
+                    print(f"\nParabéns, {nomejogadorativo}!! Você afundou as embarcações de {nomejogadoroponente}!")
+                    print(f"{nomejogadorativo} ganha!")
+                    if jogadoratual == 1:
+                        game_statistics['player1_vs_player2_wins'] += 1
+                    else:
+                        game_statistics['player2_vs_player1_wins'] += 1
+                    game_over += 1
+                    continue
+                jogadoratual = 2 if jogadoratual == 1 else 1
+                print("\n" + "=" * 40 + "\n")
+                print(f"Turno de {nomeplayer1 if jogadoratual == 1 else nomeplayer2}! ")
+                print(f"{nomeplayer2 if jogadoratual == 1 else nomeplayer1}, feche os olhos! Não vale espiar!!\n")
+                input("Pressione enter para continuar quando o próximo jogador estiver pronto.\n")
+                print("\n" + "=" * 40)
+                time.sleep(1)
+
+        if game_over == 1:
+            print("\n--- FIM DO JOGO ---")
+            if modo_jogo == 'C':
+                print("\nTabuleiro final do jogador:")
+                imprimir_tabuleiro(tabuleirojogadorreal, pessoa='eu', nome_jogador=player_name)
+                print("\nTabuleiro final do CPU revelado:")
+                imprimir_tabuleiro(tabuleirocomputadorreal, pessoa='eu', nome_jogador="COMPUTADOR")
+            else:
+                print("\nTabuleiro final do jogador 1:")
+                imprimir_tabuleiro(player1tabuleiroreal, pessoa='eu', nome_jogador=nomeplayer1)
+                print("\nTabuleiro final do jogador 2:")
+                imprimir_tabuleiro(player2tabuleiroreal, pessoa='eu', nome_jogador=nomeplayer2)
+            proxacaostatus = 0
+            while proxacaostatus == 0:
+                proxacao = input("\nDigite J para jogar novamente, E para conferir estatísticas e S para sair!!").upper()
+                if proxacao == 'J':
+                    proxacaostatus = 1
+                elif proxacao == 'E':
+                    estatisticas(game_statistics)
+                elif proxacao == 'S':
+                    print("Obrigada por jogar Batalha Naval!")
+                    estatisticas(game_statistics)
+                    jogoativostatus = 0
+                    proxacaostatus = 1
+                else:
+                    print("Opção inválida. Digite J, E ou S.")
+
+gameplay()</code></pre>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="projetoCodigo">
+                    <h3>project: renewable energies game (PROCESSING JAVA)</h3>
+                    <p>made with the processing IDE!</p>
+                    <button class="togglebotaoCodigo">show code</button>
+                    <div class="conteudoCodigo" style="display: none;">
+                        <pre><code>import processing.sound.*;
+
+final int SHOWGUI_STATE = 0;
+final int ENERGIA_UM = 1;
+final int VIDEO_UM = 11;
+final int ENERGIA_DOIS = 2;
+final int VIDEO_DOIS = 12;
+final int ENERGIA_TRES = 3;
+final int VIDEO_TRES = 13;
+final int ENERGIA_QUATRO = 4;
+final int VIDEO_QUATRO = 14;
+final int ENERGIA_CINCO = 5;
+final int VIDEO_CINCO = 15;
+final int QUIZ_STATE = 20;
+final int EXIT_STATE = 99;
+final int RESPOSTA_STATE = 100;
+PImage bgimg;
+PImage solrock;
+PImage[] botaoenergiaimg = new PImage[5];
+SoundFile musiquinhas;
+PImage bulbasauro;
+PImage mundoimg;
+int state = SHOWGUI_STATE;
+int botaolargura = 300;
+int botaoaltura = 60;
+int botaoSpacing = 20;
+int startY = 180;
+int startX = (1600 - botaolargura) / 2;
+int imageSize = 40;
+int imagePadding = 10;
+color voltarcor1;
+color voltarcor2;
+color videocor2;
+color videocor1;
+color exitcor1;
+color exitcor2;
+color quizcor2;
+color quizcor1;
+color respostacor2;
+color respostacor1;
+PImage[] videoimgs = new PImage[5];
+String[] videolinks = {
+  "https://www.youtube.com/watch?v=Jr4PwXasdvg",
+  "https://www.youtube.com/watch?v=A57e_4JjfZU",
+  "https://www.youtube.com/watch?v=GoAh8fB8lRc",
+  "https://www.youtube.com/watch?v=FgjfJGfusdE",
+  "https://www.youtube.com/watch?v=FA9VBBw1Q-g"
+};
+int larguraimgvideo = 640;
+int alturaimgvideo = 360;
+PImage titleimg;
+int titleimgwidth = 561;
+int titleimgaltura = 126;
+
+void setup() {
+  size(1600, 900);
+  fill(#228B22);
+  textAlign(CENTER, CENTER);
+  voltarcor1 = color(#F05A5A); 
+  voltarcor2 = color(#FAB0A2);
+  videocor1 = color(#5EB2C6);
+  videocor2 = color(#91B4F7);
+  respostacor1 = color(#F791E6);
+  respostacor2 = color(#C644B1);
+  exitcor1 = color(#AF2020);
+  exitcor2 = color(#E83171);
+  quizcor1 = color(#F2F75F);
+  quizcor2 = color(#F7BB5F);
+  bgimg = loadImage("bgbg.jpg");
+botaoenergiaimg[0] = loadImage("botaoum.png");
+botaoenergiaimg[1] = loadImage("botaodois.png");
+botaoenergiaimg[2] = loadImage("botaotres.png");
+botaoenergiaimg[3] = loadImage("botaoquatro.png");
+botaoenergiaimg[4] = loadImage("botaocinco.png");
+musiquinhas = new SoundFile(this, "musiquinha.mp3");
+musiquinhas.loop();
+mundoimg = loadImage("mundo.png");
+bulbasauro = loadImage("bulbs.png");
+solrock = loadImage("solrock.gif");
+videoimgs[0] = loadImage("imgvideo1.png");
+videoimgs[1] = loadImage("imgvideo2.png");
+videoimgs[2] = loadImage("imgvideo3.png");
+videoimgs[3] = loadImage("imgvideo4.png");
+videoimgs[4] = loadImage("imgvideo5.png");
+titleimg = loadImage("title.png");
+}
+
+void draw() {
+  background(bgimg);
+  fill(0);
+  textSize(24);
+  text(mouseX + "  " + mouseY, mouseX, mouseY);
+
+  if (state == VIDEO_UM||state == VIDEO_DOIS||state == VIDEO_TRES||state == VIDEO_QUATRO||state == VIDEO_CINCO) {
+    if (musiquinhas.isPlaying()) {
+      musiquinhas.stop();
+    }
+  } else {
+    if (!musiquinhas.isPlaying()) {musiquinhas.loop(); }}
+
+  switch (state) {
+    case ENERGIA_UM:
+      enerum();
+      botaovideodef();
+      botaovoltardef();
+      break;
+    case VIDEO_UM:
+      telavideos(0);
+      botaovoltardef();
+      break;
+    case ENERGIA_DOIS:
+      enerdois();
+      botaovideodef();
+      botaovoltardef();
+      break;
+    case VIDEO_DOIS:
+      telavideos(1);
+      botaovoltardef();
+      break;
+    case ENERGIA_TRES:
+      enertres();
+      botaovideodef();
+      botaovoltardef();
+      break;
+    case VIDEO_TRES:
+      telavideos(2);
+      botaovoltardef();
+      break;
+    case ENERGIA_QUATRO:
+      enerquatro();
+      botaovideodef();
+      botaovoltardef();
+      break;
+    case VIDEO_QUATRO:
+      telavideos(3);
+      botaovoltardef();
+      break;
+    case ENERGIA_CINCO:
+      enercinco();
+      botaovideodef();
+      botaovoltardef();
+      break;
+    case VIDEO_CINCO:
+      telavideos(4);
+      botaovoltardef();
+      break;
+    case QUIZ_STATE:
+      telaquiz();
+      botaovoltardef();
+      drawRespostaButton();
+      break;
+    case RESPOSTA_STATE:
+      respostas();
+      botaovoltardef();
+      break;
+    case EXIT_STATE:
+      exitScreen();
+      break;
+    default:
+      state = SHOWGUI_STATE;
+      drawGUI();
+      break;}}
+
+void mousePressed() {
+  if (state==SHOWGUI_STATE) {
+  if (isMouseOverButton(startX, startY, botaolargura, botaoaltura)) {
+   state = ENERGIA_UM;
+ } else if (isMouseOverButton(startX, startY + (botaoaltura + botaoSpacing), botaolargura, botaoaltura)) {
+    state = ENERGIA_DOIS;
+ } else if (isMouseOverButton(startX, startY + 2 * (botaoaltura + botaoSpacing), botaolargura, botaoaltura)) {
+    state = ENERGIA_TRES;
+ } else if (isMouseOverButton(startX, startY + 3 * (botaoaltura + botaoSpacing), botaolargura, botaoaltura)) {
+    state = ENERGIA_QUATRO;
+ } else if (isMouseOverButton(startX, startY + 4 * (botaoaltura + botaoSpacing), botaolargura, botaoaltura)) {
+    state = ENERGIA_CINCO;
+ } else if (isMouseOverButton(startX, startY + 5 * (botaoaltura + botaoSpacing), botaolargura, botaoaltura)) {
+    state = QUIZ_STATE;
+ } else if (isMouseOverButton(startX, startY + 6 * (botaoaltura + botaoSpacing), botaolargura, botaoaltura)) {
+    state = EXIT_STATE;
+   }
+  } else if (state >= ENERGIA_UM && state <= ENERGIA_CINCO) {int videoButtonY = 600;
+    if (isMouseOverButton(startX, videoButtonY, botaolargura, botaoaltura)) {state += 10;}
+    if (isMouseOverButton(50, 50, botaolargura, botaoaltura)) {state = SHOWGUI_STATE;}
+  } else if (state >= VIDEO_UM && state <= VIDEO_CINCO) {
+    if (isMouseOverButton(50, 50, botaolargura, botaoaltura)) {
+      state -= 10; }
+ int videoindice = state - VIDEO_UM;
+ int videoImageX = width / 2 - larguraimgvideo / 2;
+ int videoImageY = height / 2 - alturaimgvideo / 2;
+    if (mouseX >= videoImageX && mouseX <= videoImageX + larguraimgvideo && mouseY >= 
+    videoImageY && mouseY <= videoImageY + alturaimgvideo && videoindice >= 
+    0 && videoindice < videolinks.length) {
+ link(videolinks[videoindice]); }} else if (state == QUIZ_STATE) {
+    if (isMouseOverButton(50, 50, botaolargura, botaoaltura)) { state = SHOWGUI_STATE;} else if
+     (isMouseOverButton(startX, 600, botaolargura, 
+     botaoaltura))
+  {state = RESPOSTA_STATE;}
+  } else if (state == RESPOSTA_STATE) {
+    if (isMouseOverButton(50, 50, botaolargura, botaoaltura)) {state = SHOWGUI_STATE;}} else if (state == EXIT_STATE) {
+    exit();}}
+
+boolean isMouseOverButton(int x,
+ int y, int w, int h) {return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;}
+
+void botaovoltardef() {int returnButtonX = 50; int 
+    returnButtonY = 50; color botaocores = voltarcor1; 
+    if (isMouseOverButton(returnButtonX, returnButtonY, botaolargura, botaoaltura)) {
+    botaocores = voltarcor2; }
+  fill(botaocores);
+  rect(returnButtonX, returnButtonY, botaolargura, botaoaltura);
+  fill(255);
+  textSize(20);
+  text("Voltar", returnButtonX + botaolargura / 2, returnButtonY + botaoaltura / 2);
+}
+
+void botaovideodef() {
+  int videoButtonY = 600;
+  color botaocores = videocor1;
+  if (isMouseOverButton(startX, videoButtonY, botaolargura, botaoaltura)) {botaocores = videocor2;}
+  fill(botaocores);
+  rect(startX, videoButtonY, botaolargura, botaoaltura);
+  fill(255);
+  textSize(20);
+  text("Vídeo", startX + botaolargura / 2, videoButtonY + botaoaltura / 2);
+}
+
+void drawRespostaButton() {
+ int respostaButtonY = 600;
+ color botaocores = respostacor1;
+ if (isMouseOverButton(startX, respostaButtonY, botaolargura, botaoaltura)) {botaocores = respostacor2;}
+ fill(botaocores); 
+ rect(startX, respostaButtonY, botaolargura, botaoaltura);
+ fill(255);
+ textSize(20);
+ text("Respostas", startX + botaolargura / 2, respostaButtonY + botaoaltura / 2);}
+
+void drawGUI() {
+ fill(0, 0, 0);
+ image(titleimg, width / 2 - titleimgwidth / 2, 80 - titleimgaltura / 2, titleimgwidth, titleimgaltura);
+ textSize(30);
+ image(mundoimg, 100, 180, 320, 320);
+  
+  int yOffset = 0;
+  String[] buttonLabels = {"Energia Solar", "Energia Eólica", 
+  "Energia Térmica", "Energia Hídrica",
+   "Biomassa", "Quiz", "Sair"};
+  
+  
+ for (int i = 0; i < buttonLabels.length; i++) {
+  PImage currentButtonImage = null;
+ if (i < botaoenergiaimg.length) {currentButtonImage = botaoenergiaimg[i];}
+ if (currentButtonImage != null) {image(currentButtonImage, startX, startY + yOffset, botaolargura, botaoaltura);} else 
+ {color botaocores = (i < 6) ? quizcor1 : exitcor1;
+ color highlightcores = (i < 6) ? quizcor2 : exitcor2;
+ fill(isMouseOverButton(startX, startY + yOffset, botaolargura, botaoaltura) ? highlightcores : botaocores);
+rect(startX, startY + yOffset, botaolargura, botaoaltura);
+ fill(0);
+  textAlign(LEFT, CENTER);
+  text(buttonLabels[i], startX + imageSize + imagePadding, startY + yOffset + botaoaltura / 2);
+  textAlign(CENTER, CENTER);
+  fill(255);} yOffset += botaoaltura + botaoSpacing;}}
+
+void enerum() {
+  fill(#000000);
+  textSize(48);
+  textAlign(CENTER);
+  text("Energia Eólica", width / 2, 130);
+  textSize(24);
+  fill(#000000);
+  text("A energia eólica é um tipo de energia renovável gerada da força dos ventos. \n Trata-se de 
+  uma energia consideravelmente mais barata do que as demais, \n e que não gera 
+  emissão de poluentes na atmosfera. \n Por outro lado, as estruturas 
+  instaladas causam ruídos e 
+  impactam diretamente a fauna local,\n podendo levar à morte de 
+  pássaros e morcegos. \n A energia eólica é 
+  produzida pela força dos ventos em um processo de conversão de energia cinética,\n 
+  proveniente do movimento, em eletricidade.
+   Isso é possível de ser feito por meio das turbinas 
+  \n eólicas ou aerogeradores, \n que se assemelham
+   aos moinhos de ventos e formam os parques eólicos, cuja paisagem já nos é bastante familiar. 
+  \n Alguns dos principais usos: \n Geração de eletricidade \n Bombagem de água \n Aquecimento \n
+   Energia residencial",
+    width / 2, 200);
+}
+
+void enerdois() {
+  fill(0);
+  textSize(48);
+  textAlign(CENTER);
+  text("Energia Hídrica", width/2, 130);
+  textSize(24);
+  text("Energia hídrica é aquela que transforma a força das águas em eletricidade. \n Esse processo acontece nas
+   usinas hidrelétricas,\n que aproveitam o potencial 
+   hidráulico dos rios. Os que estão localizados em planaltos são os \n mais propícios para essa finalidade, 
+   porque quanto mais desníveis, mais intensa será a \n força da água e, por consequência,
+    mais energia será produzida. \n Energia gerada por hidrelétricas pode ser 
+
+   injetada no sistema elétrico mais \n rapidamente do que a de qualquer outra fonte.\n Considerando a 
+   necessidade \n cada vez mais constante de 
+   fontes de geração rápidas e \n
+    flexíveis, especialmente em momentos de pico, a energia hídrica se destaca, 
+    \n mantendo em equilíbrio 
+   oferta e demanda. é renovável, usando um recurso inesgotável \n 
+   da natureza;  é limpa;  a água é reaproveitada após o uso; 
+    o sistema coleta \n água das chuvas para consumo; 
+   o Brasil possui uma geografia propícia para \n gerá-la;  tem baixo custo 
+   ao consumidor;
+    \n as usinas têm longa vida útil;  são mais estáveis, 
+    especialmente aquelas com reservatórios, propiciando um \n 
+    planejamento 
+    de acordo com a demanda.", width / 2, 170);
+}
+
+void enertres() {
+  fill(0, 0, 0);
+  textSize(48);
+  textAlign(CENTER);
+  text("Biomassa", width/2, 130);
+  textSize(24);
+  text("O termo biomassa é empregado para designar toda substância de origem animal ou vegetal, \n como
+   resíduos agrícolas, florestais, materiais
+    de construção e resíduos urbanos, \n que pode ser utilizada na geração
+     de energia (calor e eletricidade) e 
+    também na fabricação \n de biocombustíveis. Trata-se, portanto, da matéria orgânica que 
+    tem como finalidade a produção de direta e \n indireta de bioenergia.
+    \n Tal energia pode ser obtida de diversas maneiras, sendo elas a combustão 
+    direta (a principal), \n conversão termoquímica, gaseificação, pirólise, 
+    fermentação e co-combustão. \n Alguns dos principais usos:\n Geração de energia 
+    elétrica \n Geração de energia térmica \n Produção de biocombustíveis \n Aquecimento 
+    residencial e industrial", width / 2, 200);
+}
+
+void enerquatro() {
+  fill(#000000);
+  textSize(48);
+  textAlign(CENTER);
+  text("Energia Térmica", width/2, 130);
+  textSize(30);
+  text("A energia termosolar é um tipo de energia que a partir 
+  da energia solar gerar calor, \n e esse calor gera \n 
+  eletricidade.\n Este 
+  processo utiliza espelhos móveis (heliostatos) que concentram 
+  a luz solar \n em um ponto central, \n onde um fluido é aquecido e
+   transformado em vapor, \n que move uma turbina e gera \n
+    eletricidade.", width / 2, 200);
+}
+
+void enercinco() {
+  fill(0);
+  textSize(48);
+  textAlign(CENTER);
+  text("Energia Solar", width/2, 100);
+  textSize(24);
+  text("Energia solar é a energia que vem da luz e do calor do sol. \n Sendo uma 
+  fonte alternativa, renovável 
+  e sustentável de energia \n
+   que provém da radiação eletromagnética (luz e calor) emanada diar
+    e painéis fotovoltaicos. \n A energia solar funciona da seguinte forma: ela é 
+    produzida dentro dos sistemas compostos pelos \n painéis e inversores. Os módulos \n fotovoltaicos 
+    (também conhecidos como placas solares) conseguem captar a \n luz do sol,
+     transportando essa energia para o inversor solar, onde é transformada em \n 
+     energia elétrica. Ou seja, a energia é gerada a partir do efeito fotovoltaico. \n 
+     Entre as principais utilizações da energia solar estão: \n Geração de eletricidade 
+     \n Aquecimento de água \n Aquecimento de ambientes \n Processos industriais \n 
+     Bombeamento de água \n Recarga de carros elétricos \n Produção de hidrogênio", width / 2, 140);
+  image(solrock, 80, 250, 420, 320);}
+
+void telavideos(int videoindice) {
+  fill(#000000);
+  textSize(48);
+  textAlign(CENTER);
+  String[] titles = {"Vídeo sobre Energia Eólica", "Vídeo sobre Energia Hídrica", "Vídeo sobre Biomassa",
+   "Vídeo sobre Energia Térmica", "Vídeo sobre
+    Energia Solar"};
+  text(titles[videoindice], width / 2, 130);
+  textSize(24);
+  text("Vídeo sobre a energia:", width / 2, 230);
+  int videoImageX = width / 2 - larguraimgvideo / 2;
+  int videoImageY = height / 2 - alturaimgvideo / 2;
+  if (videoindice >= 0 && videoindice < videoimgs.length && videoimgs[videoindice] != null) {
+    image(videoimgs[videoindice], videoImageX, videoImageY, larguraimgvideo, alturaimgvideo);
+  }}
+
+void telaquiz() {
+  fill(0);
+  textSize(48);
+  textAlign(CENTER);
+  text("Quiz sobre Energias Renováveis", width / 2, 130);
+  textSize(24);
+  text("PERGUNTA 1: Qual desses terrenos é mais propício para usinas hidrelétricas?  \n a) Planícies b) Planaltos 
+  c) Depressões \n \n PERGUNTA 2: Qual instrumento o processo de captação de 
+  energia termosolar utiliza? \n a) Espelhos b) Turbinas c) Ambos \n \n 
+  PERGUNTA 3: A biomassa só pode ser extraída de... \n a) Fontes carbônicas b) 
+  Fontes Inorgânicas c) Fontes orgânicas \n \n PERGUNTA 4: Um dos contras da da 
+  energia eólica é... \n a)
+   Pode afetar a fauna local \n b) Muito caro para instalar
+    \n c) Necessita de reparação constante",
+     width / 2, 230);}
+
+void respostas() {
+  fill(0);
+  textSize(48);
+  textAlign(CENTER);
+  text("Gabarito", width / 2, 130);
+  textSize(24);
+  text("PERGUNTA 1: b) Planaltos \n PERGUNTA 2: c) Ambos \n PERGUNTA 3: c) Fontes orgânicas \n PERGUNTA 4:  a)
+   Pode afetar a fauna local", width / 2, 230);
+  image(bulbasauro, 100, 180, 320, 320);
+}
+
+void exitScreen() {
+  fill(0);
+  textSize(48);
+  textAlign(CENTER);
+  text("Tchau, tchau!", width / 2, height / 2);}</code></pre>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="projetoCodigo">
+                    <h3>project: arduino code</h3>
+                    <p>a code made for arduino to detect humidity and temperature</p>
+                    <button class="togglebotaoCodigo">show image</button>
+                    <div class="conteudoCodigo" style="display: none;">
+                        <img src="https://files.catbox.moe/rb2buw.png" alt="imagearduino">
+                    </div>
+                </div>
+
+                <p>I hope you liked my codes!</p>
+            </section>
+
+            <section id="button-section" class="large contentsection">
+                <h1>you found the secret button!!</h1>
+                <p>:D</p>
+            </section>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleBotao = document.querySelectorAll('.togglebotaoCodigo');
+
+            toggleBotao.forEach(button => {
+                button.addEventListener('click', () => {
+                    const codeContent = button.nextElementSibling;
+                    if (codeContent) {
+                        if (window.getComputedStyle(codeContent).display === 'none') {
+                            codeContent.style.display = 'block';
+                            if (button.conteudoTexto.includes('Code')) {
+                                button.conteudoTexto = 'hide code';
+                            } else if (button.conteudoTexto.includes('Image')) {
+                                button.conteudoTexto = "hide image";
+                            }
+                        } else {
+                            codeContent.style.display = 'none';
+                            if (button.conteudoTexto.includes('Code')) {
+                                button.conteudoTexto = 'show code';
+                            } else if (button.conteudoTexto.includes('Image')) {
+                                button.conteudoTexto= 'show image';
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+         <footer>
+            <p>&copy; 2025</p>
+    </footer>
+</body>
+</html>
